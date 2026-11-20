@@ -1,19 +1,17 @@
 'use client';
 
-import { useState } from 'react';
 import { assets, followAssets } from '../lib/mock';
 
-export default function Waterfall() {
-  const [tab, setTab] = useState('hot');
+export default function Waterfall({ tab = 'hot', onTabChange = () => {} }) {
   const list = tab === 'hot' ? assets : followAssets;
 
   return (
     <>
       <div className="tabs">
-        <button className={`tab ${tab === 'hot' ? 'active' : ''}`} onClick={() => setTab('hot')}>
+        <button className={`tab ${tab === 'hot' ? 'active' : ''}`} onClick={() => onTabChange('hot')}>
           热门素材
         </button>
-        <button className={`tab ${tab === 'follow' ? 'active' : ''}`} onClick={() => setTab('follow')}>
+        <button className={`tab ${tab === 'follow' ? 'active' : ''}`} onClick={() => onTabChange('follow')}>
           关注列表
         </button>
       </div>

@@ -56,7 +56,8 @@ input, select { font-family: inherit; outline: none; }
   z-index: 30;
 }
 .sidebar.is-collapsed { width: 68px; flex-basis: 68px; }
-.sidebar.is-collapsed:hover { width: 212px; flex-basis: 212px; }
+/* 收起瞬间加 .no-hover-expand，鼠标移出侧栏后才恢复 hover 展开，保证点击立刻可见 */
+.sidebar.is-collapsed:not(.no-hover-expand):hover { width: 212px; flex-basis: 212px; }
 
 .sidebar-head {
   display: flex; align-items: center; gap: 10px;
@@ -87,6 +88,9 @@ input, select { font-family: inherit; outline: none; }
   height: 42px; padding: 0 12px; border-radius: 10px;
   color: #5a6070; white-space: nowrap; margin-bottom: 3px;
   transition: background 0.15s, color 0.15s;
+  /* 占位项用 <button>，重置浏览器默认样式，保证与 <Link> 外观完全一致 */
+  width: 100%; box-sizing: border-box; border: 0;
+  background: transparent; font: inherit; text-align: left; cursor: pointer;
 }
 .nav-item:hover { background: #f5f5fb; color: var(--brand); }
 .nav-item.active { background: var(--brand-soft); color: var(--brand); font-weight: 600; }
@@ -95,16 +99,46 @@ input, select { font-family: inherit; outline: none; }
 .sidebar.is-collapsed .nav-label,
 .sidebar.is-collapsed .nav-group-title,
 .sidebar.is-collapsed .logo-text { opacity: 0; pointer-events: none; }
-.sidebar.is-collapsed:hover .nav-label,
-.sidebar.is-collapsed:hover .nav-group-title,
-.sidebar.is-collapsed:hover .logo-text { opacity: 1; pointer-events: auto; }
+.sidebar.is-collapsed:not(.no-hover-expand):hover .nav-label,
+.sidebar.is-collapsed:not(.no-hover-expand):hover .nav-group-title,
+.sidebar.is-collapsed:not(.no-hover-expand):hover .logo-text { opacity: 1; pointer-events: auto; }
 .sidebar-foot {
   position: absolute; bottom: 18px; left: 12px; right: 12px;
   padding: 12px; border-radius: 12px; background: #f7f6ff;
   font-size: 12px; color: #6f6a9c; white-space: nowrap; overflow: hidden;
 }
 .sidebar.is-collapsed .sidebar-foot { opacity: 0; }
-.sidebar.is-collapsed:hover .sidebar-foot { opacity: 1; }
+.sidebar.is-collapsed:not(.no-hover-expand):hover .sidebar-foot { opacity: 1; }
+
+/* 收起态只有 68px：头部改纵向排列，保证展开按钮可见可点，文字不再占位 */
+.sidebar.is-collapsed .sidebar-head {
+  flex-direction: column; gap: 10px; align-items: center; padding: 0 0 14px;
+}
+.sidebar.is-collapsed .logo-text,
+.sidebar.is-collapsed .nav-label,
+.sidebar.is-collapsed .nav-group-title { display: none; }
+.sidebar.is-collapsed .sidebar-toggle { margin-left: 0; }
+/* hover 展开时恢复横向完整排版 */
+.sidebar.is-collapsed:not(.no-hover-expand):hover .sidebar-head {
+  flex-direction: row; gap: 10px; align-items: center; padding: 0 8px 18px;
+}
+.sidebar.is-collapsed:not(.no-hover-expand):hover .logo-text,
+.sidebar.is-collapsed:not(.no-hover-expand):hover .nav-label { display: inline; }
+.sidebar.is-collapsed:not(.no-hover-expand):hover .nav-group-title { display: block; }
+.sidebar.is-collapsed:not(.no-hover-expand):hover .sidebar-toggle { margin-left: auto; }
+
+/* 占位模块点击提示 */
+.nav-toast {
+  position: fixed; left: 228px; bottom: 28px; z-index: 60;
+  max-width: 340px; padding: 11px 16px; border-radius: 10px;
+  background: #2b2540; color: #fff; font-size: 13px; line-height: 1.5;
+  box-shadow: 0 8px 28px rgba(28, 22, 60, 0.24);
+  animation: toast-in 0.18s ease;
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
 /* ============ 主区域 ============ */
 .main { flex: 1; min-width: 0; }

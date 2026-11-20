@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Banner from '../components/Banner';
 import CreatorList from '../components/CreatorList';
 import Sidebar from '../components/Sidebar';
@@ -11,6 +11,15 @@ import { assets, collections } from '../lib/mock';
 
 export default function Home() {
   const [keyword, setKeyword] = useState('');
+  const [wfTab, setWfTab] = useState('hot');
+
+  useEffect(() => {
+    // 直接带 ?tab=follow 打开首页时也能切到关注列表
+    if (new URLSearchParams(window.location.search).get('tab') === 'follow') setWfTab('follow');
+    const onSwitch = (e) => setWfTab(e.detail === 'follow' ? 'follow' : 'hot');
+    window.addEventListener('pixro:switch-tab', onSwitch);
+    return () => window.removeEventListener('pixro:switch-tab', onSwitch);
+  }, []);
 
   const results = useMemo(() => {
     if (!keyword) return [];
@@ -88,7 +97,7 @@ export default function Home() {
                 </div>
                 <Link href="/market" className="section-more">进入素材市场 →</Link>
               </div>
-              <Waterfall />
+              <Waterfall tab={wfTab} onTabChange={setWfTab} />
             </>
           )}
         </div>

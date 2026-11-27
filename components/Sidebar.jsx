@@ -62,7 +62,7 @@ export default function Sidebar() {
       >
         <div className="sidebar-head">
           <div className="logo-mark">p</div>
-          <span className="logo-text">pixro<span className="logo-dot">.</span></span>
+          <span className="logo-text">Pixroro</span>
           <button
             className="sidebar-toggle"
             onClick={toggle}

@@ -15,7 +15,7 @@ export default function TopBar({ active = 'home', onSearch = () => {}, showSearc
     <header className="topbar">
       <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
         <div className="logo-mark" style={{ width: 30, height: 30, flexBasis: 30, fontSize: 16 }}>p</div>
-        <span className="logo-text" style={{ fontSize: 17 }}>pixro<span className="logo-dot">.</span></span>
+        <span className="logo-text" style={{ fontSize: 17 }}>Pixroro</span>
       </div>
 
       <nav className="top-menus">

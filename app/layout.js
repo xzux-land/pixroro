@@ -1,7 +1,7 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'pixro · 创意素材平台',
+  title: 'Pixroro',
   description: 'pixro 首页与素材市场原型，基于 Next.js App Router',
 };
 
